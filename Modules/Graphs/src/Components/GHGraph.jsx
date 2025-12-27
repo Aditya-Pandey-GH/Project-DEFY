@@ -1,4 +1,3 @@
-import { use } from "react";
 import { useEffect, useState } from "react";
 
 const GHGraph = () => {
@@ -25,71 +24,65 @@ const GHGraph = () => {
 		getGHData();
 	}, [curYear]);
 
+	const prevMonth = () => {
+		if (curYear > 2008 || curMonth > 3) {
+			// if (curYear != 2008 || curMonth != 3) {
+			if (curMonth === 0) {
+				setCurMonth(11);
+				setCurYear(curYear - 1);
+			} else {
+				setCurMonth(curMonth - 1);
+			}
+		}
+	};
+	const nextMonth = () => {
+		if (curYear < curDate.getFullYear() || curMonth < curDate.getMonth()) {
+			// if (curYear != curDate.getFullYear() || curMonth != curDate.getMonth()) {
+			if (curMonth === 11) {
+				setCurMonth(0);
+				setCurYear(curYear + 1);
+			} else {
+				setCurMonth(curMonth + 1);
+			}
+		}
+	};
+
 	return (
 		<>
 			<div className="w-fit h-fit p-4">
 				{/* Row 1: Dropdowns */}
-				<div className="grid grid-cols-2 gap-2 mb-4">
-					{/* Months Dropdown */}
-					<div className="w-full max-w-sm">
-						<div className="relative">
-							<select
-								name="month"
-								id="selectMonth"
-								defaultValue={curMonth}
-								onChange={(event) => {
-									setCurMonth(event.target.value);
-								}}
-								className="w-full bg-transparent text-sm border rounded pl-3 pr-8 py-2 transition duration-300 ease focus:outline-none focus:border-slate-400 hover:border-slate-400 shadow-sm focus:shadow-md appearance-none cursor-pointer"
-							>
-								{monthsOfYear.map((month, index) => (
-									<option key={index} value={index} className="bg-slate-200 dark:bg-slate-700">
-										{month}
-									</option>
-								))}
-							</select>
-							<svg
-								xmlns="http://www.w3.org/2000/svg"
-								fill="none"
-								viewBox="0 0 24 24"
-								strokeWidth="1.2"
-								stroke="currentColor"
-								className="h-5 w-5 ml-1 absolute top-2.5 right-2.5 -z-1"
-							>
-								<path strokeLinecap="round" strokeLinejoin="round" d="M8.25 15 12 18.75 15.75 15m-7.5-6L12 5.25 15.75 9" />
-							</svg>
-						</div>
+				<div className="flex justify-between items-center mb-4">
+					<div className="flex gap-2 text-lg font-bold">
+						<span className="">{monthsOfYear[curMonth]}</span>
+						<span className="">{curYear}</span>
 					</div>
-
-					{/* Years Dropdown */}
-					<div className="w-full max-w-sm">
-						<div className="relative">
-							<select
-								name="year"
-								id="selectYear"
-								defaultValue={curYear}
-								onChange={(event) => {
-									setCurYear(event.target.value);
-								}}
-								className="w-full bg-transparent text-sm border rounded pl-3 pr-8 py-2 transition duration-300 ease focus:outline-none focus:border-slate-400 hover:border-slate-400 shadow-sm focus:shadow-md appearance-none cursor-pointer"
-							>
-								{Array.from({ length: 100 }, (_, i) => (
-									<option key={i} value={2008 + i} className="bg-slate-200 dark:bg-slate-700">
-										{2008 + i}
-									</option>
-								))}
-							</select>
-							<svg
-								xmlns="http://www.w3.org/2000/svg"
-								fill="none"
-								viewBox="0 0 24 24"
-								strokeWidth="1.2"
-								stroke="currentColor"
-								className="h-5 w-5 ml-1 absolute top-2.5 right-2.5 -z-1"
-							>
-								<path strokeLinecap="round" strokeLinejoin="round" d="M8.25 15 12 18.75 15.75 15m-7.5-6L12 5.25 15.75 9" />
+					<div className="flex gap-4">
+						<button onClick={prevMonth} className="cursor-pointer">
+							<svg xmlns="http://www.w3.org/2000/svg" width="36" height="36" viewBox="0 0 256 256" fill="none">
+								<circle cx="128" cy="128" r="112" strokeWidth="20" fill="none" className="stroke-black dark:stroke-white" />
+								<path
+									d="M140 76 L88 128 L140 180"
+									strokeWidth="20"
+									strokeLinecap="round"
+									strokeLinejoin="round"
+									fill="none"
+									className="stroke-black dark:stroke-white"
+								/>
 							</svg>
-						</div>
+						</button>
+						<button onClick={nextMonth} className="cursor-pointer">
+							<svg xmlns="http://www.w3.org/2000/svg" width="36" height="36" viewBox="0 0 256 256" fill="none">
+								<circle cx="128" cy="128" r="112" strokeWidth="20" fill="none" className="stroke-black dark:stroke-white" />
+								<path
+									d="M116 76 L168 128 L116 180"
+									strokeWidth="20"
+									strokeLinecap="round"
+									strokeLinejoin="round"
+									fill="none"
+									className="stroke-black dark:stroke-white"
+								/>
+							</svg>
+						</button>
 					</div>
 				</div>
 
@@ -109,7 +102,7 @@ const GHGraph = () => {
 								title={`${i + 1} ${monthsOfYear[curMonth]} ${curYear} - ${
 									ghData?.contributions?.[curYear]?.[parseInt(curMonth) + 1]?.[i + 1]?.count || 0
 								} contributions`}
-								className={`w-6 h-6 rounded overflow-hidden cursor-pointer ${
+								className={`w-8 h-8 rounded overflow-hidden cursor-pointer flex justify-center items-center ${
 									ghData?.contributions?.[curYear]?.[parseInt(curMonth) + 1]?.[i + 1]?.level === 4
 										? "bg-green-600 dark:bg-green-500"
 										: ghData?.contributions?.[curYear]?.[parseInt(curMonth) + 1]?.[i + 1]?.level === 3
@@ -120,7 +113,9 @@ const GHGraph = () => {
 										? "bg-green-200 dark:bg-green-950"
 										: "bg-slate-200 dark:bg-slate-800"
 								}`}
-							/>
+							>
+								{/* {i + 1} */}
+							</div>
 						</div>
 					))}
 				</div>
