@@ -103,15 +103,23 @@ const GHGraph = () => {
 									ghData?.contributions?.[curYear]?.[parseInt(curMonth) + 1]?.[i + 1]?.count || 0
 								} contributions`}
 								className={`w-8 h-8 rounded overflow-hidden cursor-pointer flex justify-center items-center ${
-									ghData?.contributions?.[curYear]?.[parseInt(curMonth) + 1]?.[i + 1]?.level === 4
-										? "bg-green-600 dark:bg-green-500"
-										: ghData?.contributions?.[curYear]?.[parseInt(curMonth) + 1]?.[i + 1]?.level === 3
-										? "bg-green-400 dark:bg-green-700"
-										: ghData?.contributions?.[curYear]?.[parseInt(curMonth) + 1]?.[i + 1]?.level === 2
-										? "bg-green-300 dark:bg-green-900"
-										: ghData?.contributions?.[curYear]?.[parseInt(curMonth) + 1]?.[i + 1]?.level === 1
-										? "bg-green-200 dark:bg-green-950"
-										: "bg-slate-200 dark:bg-slate-800"
+									(() => {
+										const level = ghData?.contributions?.[curYear]?.[parseInt(curMonth) + 1]?.[i + 1]?.level;
+										if (level === 4) return "bg-green-600 dark:bg-green-500";
+										if (level === 3) return "bg-green-400 dark:bg-green-700";
+										if (level === 2) return "bg-green-300 dark:bg-green-900";
+										if (level === 1) return "bg-green-200 dark:bg-green-950";
+										return "bg-slate-200 dark:bg-slate-800";
+									})()
+									// ghData?.contributions?.[curYear]?.[parseInt(curMonth) + 1]?.[i + 1]?.level === 4
+									// 	? "bg-green-600 dark:bg-green-500"
+									// 	: ghData?.contributions?.[curYear]?.[parseInt(curMonth) + 1]?.[i + 1]?.level === 3
+									// 	? "bg-green-400 dark:bg-green-700"
+									// 	: ghData?.contributions?.[curYear]?.[parseInt(curMonth) + 1]?.[i + 1]?.level === 2
+									// 	? "bg-green-300 dark:bg-green-900"
+									// 	: ghData?.contributions?.[curYear]?.[parseInt(curMonth) + 1]?.[i + 1]?.level === 1
+									// 	? "bg-green-200 dark:bg-green-950"
+									// 	: "bg-slate-200 dark:bg-slate-800"
 								}`}
 							>
 								{/* {i + 1} */}
