@@ -72,11 +72,11 @@ function PathSelection({ onPlanCreated }) {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-dark-950 via-dark-900 to-dark-950 flex items-center justify-center p-4">
+    <div className="min-h-screen bg-[linear-gradient(135deg,#0a0a0a,#314158)] flex items-center justify-center p-4">
       <div className="w-full max-w-2xl glass rounded-2xl p-8 shadow-glow-lg border border-dark-700">
         <div className="text-center mb-8">
           <h1 className="text-4xl font-bold mb-2 bg-gradient-to-r from-primary-400 to-primary-600 bg-clip-text text-transparent">
-            SATA / BrainBits AI
+            Schedule Generator
           </h1>
           <p className="text-dark-300 text-lg">Learning Planner</p>
           <p className="text-dark-400 mt-2">Create your personalized AI-powered study schedule</p>

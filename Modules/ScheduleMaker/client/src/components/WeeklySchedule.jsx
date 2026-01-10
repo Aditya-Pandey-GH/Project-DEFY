@@ -1,94 +1,89 @@
-import StudyCard from './StudyCard';
+import StudyCard from "./StudyCard";
 
 const daysOfWeek = [
-  'Monday',
-  'Tuesday',
-  'Wednesday',
-  'Thursday',
-  'Friday',
-  'Saturday',
-  'Sunday'
+  "Monday",
+  "Tuesday",
+  "Wednesday",
+  "Thursday",
+  "Friday",
+  "Saturday",
+  "Sunday",
 ];
 
 function WeeklySchedule({ plan, onPlanUpdated, selectedDay, onDaySelect }) {
   const schedule = plan?.schedule || [];
-  const scheduleMap = new Map(schedule.map(day => [day.day, day]));
-
-  const getSubjectColor = (subject) => {
-    const colors = {
-      'DSA': 'from-blue-500 to-blue-600',
-      'Web Development': 'from-green-500 to-green-600',
-      'Android Development': 'from-purple-500 to-purple-600',
-      'AI-ML': 'from-pink-500 to-pink-600',
-    };
-    return colors[subject] || 'from-gray-500 to-gray-600';
-  };
-
-  const getSubjectBadgeColor = (subject) => {
-    const colors = {
-      'DSA': 'bg-blue-500/20 text-blue-300 border-blue-500/30',
-      'Web Development': 'bg-green-500/20 text-green-300 border-green-500/30',
-      'Android Development': 'bg-purple-500/20 text-purple-300 border-purple-500/30',
-      'AI-ML': 'bg-pink-500/20 text-pink-300 border-pink-500/30',
-    };
-    return colors[subject] || 'bg-gray-500/20 text-gray-300 border-gray-500/30';
-  };
+  const scheduleMap = new Map(schedule.map((d) => [d.day, d]));
 
   return (
-    <div className="space-y-6">
-      <div className="flex items-center justify-between mb-6">
-        <h2 className="text-3xl font-bold text-dark-100">Weekly Schedule</h2>
-        <div className="text-sm text-dark-400">
-          {plan?.weeklyHours || 0} hours/week
-        </div>
+    <div className="px-12 py-8 max-w-[1400px] mx-auto">
+      {/* Header */}
+      <div className="flex justify-between items-center mb-10">
+        <h2 className="text-3xl font-semibold text-white">Weekly Schedule</h2>
+        <span className="text-slate-400">
+          {plan?.weeklyHours || 0} hrs / week
+        </span>
       </div>
 
-      <div className="grid grid-cols-1 lg:grid-cols-7 gap-4">
+      {/* Vertical days */}
+      <div className="grid grid-cols-3 gap-8">
         {daysOfWeek.map((day) => {
-          const daySchedule = scheduleMap.get(day) || { day, studyBlocks: [], totalMinutes: 0 };
-          const isSelected = selectedDay === day;
-          const dayMinutes = daySchedule.totalMinutes || daySchedule.studyBlocks?.reduce((sum, b) => sum + b.duration, 0) || 0;
-          const dayHours = Math.round(dayMinutes / 60 * 10) / 10;
+          const d = scheduleMap.get(day) || { studyBlocks: [], totalMinutes: 0 };
+
+          const mins =
+            d.totalMinutes ||
+            d.studyBlocks.reduce((s, b) => s + b.duration, 0);
+
+          const hours = Math.round((mins / 60) * 10) / 10;
 
           return (
             <div
               key={day}
-              className={`glass rounded-xl p-4 border-2 transition-all ${
-                isSelected
-                  ? 'border-primary-500 shadow-glow'
-                  : 'border-dark-700 hover:border-dark-600'
+              onClick={() => onDaySelect(day)}
+              className={`inline-block bg-[#0f172a] rounded-xl border p-6 transition
+              ${
+                selectedDay === day
+                  ? "border-blue-500 shadow-[0_0_30px_rgba(59,130,246,0.25)]"
+                  : "border-slate-700 hover:border-slate-600"
               }`}
             >
-              <div className="mb-4">
-                <div className="flex items-center justify-between mb-2">
-                  <h3 className="font-semibold text-dark-200">{day.slice(0, 3)}</h3>
-                  <span className="text-xs text-dark-500">{dayHours}h</span>
+              {/* Day Header */}
+              <div className="flex justify-between items-center mb-4">
+                <div>
+                  <h3 className="text-white font-semibold text-lg">{day}</h3>
+                  <div className="h-1 w-36 bg-slate-800 mt-2 rounded">
+                    <div
+                      className="h-full bg-blue-500 rounded"
+                      style={{
+                        width: `${Math.min(
+                          (mins / (plan?.weeklyHours * 60 || 1)) * 100,
+                          100
+                        )}%`,
+                      }}
+                    />
+                  </div>
                 </div>
-                <div className="h-1 bg-dark-800 rounded-full overflow-hidden">
-                  <div
-                    className="h-full bg-gradient-to-r from-primary-600 to-primary-500 transition-all"
-                    style={{ width: `${Math.min((dayMinutes / (plan?.weeklyHours * 60 || 1)) * 100, 100)}%` }}
-                  ></div>
-                </div>
+                <span className="text-slate-400">{hours}h</span>
               </div>
 
-              <div className="space-y-3 min-h-[200px]">
-                {daySchedule.studyBlocks && daySchedule.studyBlocks.length > 0 ? (
-                  daySchedule.studyBlocks.map((block, index) => (
-                    <StudyCard
-                      key={index}
-                      block={block}
-                      day={day}
-                      blockIndex={index}
-                      planId={plan._id || plan.id}
-                      onPlanUpdated={onPlanUpdated}
-                      subjectColor={getSubjectColor(block.subject)}
-                      subjectBadgeColor={getSubjectBadgeColor(block.subject)}
-                      onDaySelect={onDaySelect}
-                    />
+              {/* Study cards */}
+              <div className="flex gap-6 flex-wrap justify-center">
+                {d.studyBlocks.length ? (
+                  d.studyBlocks.map((b, i) => (
+                    <div key={i} className="w-[340px]">
+                      <StudyCard
+                        block={b}
+                        day={day}
+                        blockIndex={i}
+                        planId={plan._id || plan.id}
+                        onPlanUpdated={onPlanUpdated}
+                        onDaySelect={onDaySelect}
+                        subjectColor="from-blue-600 to-blue-500"
+                        subjectBadgeColor="bg-blue-500/20 text-blue-300 border-blue-500/30"
+                      />
+                    </div>
                   ))
                 ) : (
-                  <div className="text-center py-8 text-dark-500 text-sm">
+                  <div className="text-slate-500 text-sm">
                     No study blocks
                   </div>
                 )}

@@ -53,7 +53,7 @@ function Header({ plan, onCreateNew, onPlanUpdated }) {
         <div className="flex items-center justify-between flex-wrap gap-4">
           <div>
             <h1 className="text-2xl font-bold bg-gradient-to-r from-primary-400 to-primary-600 bg-clip-text text-transparent">
-              SATA / BrainBits AI
+              BrainBits AI
             </h1>
             <p className="text-sm text-dark-400 mt-1">
               {plan?.learningPath || "Learning Planner"}

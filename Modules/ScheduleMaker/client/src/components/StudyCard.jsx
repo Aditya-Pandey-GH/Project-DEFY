@@ -25,15 +25,12 @@ function StudyCard({
     try {
       setLoading(true);
       const response = await markBlockComplete(planId, day, blockIndex, passed);
-
       if (response.success && response.plan) {
         onPlanUpdated(response.plan);
       }
-
       setShowMCQ(false);
-    } catch (error) {
-      console.error("Error marking block complete:", error);
-      alert("Failed to update. Please try again.");
+    } catch {
+      alert("Failed to update");
     } finally {
       setLoading(false);
     }
@@ -41,47 +38,58 @@ function StudyCard({
 
   const formatDuration = (minutes) => {
     if (minutes < 60) return `${minutes}m`;
-    const hours = Math.floor(minutes / 60);
-    const mins = minutes % 60;
-    return mins > 0 ? `${hours}h ${mins}m` : `${hours}h`;
+    const h = Math.floor(minutes / 60);
+    const m = minutes % 60;
+    return m ? `${h}h ${m}m` : `${h}h`;
   };
 
   return (
     <>
       <div
-        className={`bg-gradient-to-br ${subjectColor} rounded-lg p-4 border border-white/10 shadow-lg hover:shadow-xl transition-all cursor-pointer ${
-          block.completed ? "opacity-60" : ""
-        }`}
         onClick={handleProveClick}
+        className={`relative rounded-xl p-5 bg-[#0b1220] border border-slate-700 
+        hover:border-blue-500 transition cursor-pointer
+        ${block.completed ? "opacity-50" : ""}`}
       >
-        <div className="flex items-start justify-between mb-2">
-          <span
-            className={`px-2 py-1 rounded text-xs font-semibold border ${subjectBadgeColor}`}
-          >
-            {block.subject}
-          </span>
-          {block.completed && <span className="text-green-300 text-lg">✓</span>}
-        </div>
+        {/* Left color bar */}
+        <div
+          className={`absolute left-0 top-0 bottom-0 w-[5px] rounded-l-xl bg-gradient-to-b ${subjectColor}`}
+        />
 
-        <h4 className="text-white font-semibold text-sm mb-2 line-clamp-2">
-          {block.topic}
-        </h4>
-
-        <div className="flex items-center justify-between mt-3 pt-3 border-t border-white/20">
-          <span className="text-white/80 text-xs">
-            {formatDuration(block.duration)}
-          </span>
-          {!block.completed && (
-            <button
-              onClick={(e) => {
-                e.stopPropagation();
-                handleProveClick();
-              }}
-              className="text-xs px-3 py-1 bg-white/20 hover:bg-white/30 text-white rounded transition-all font-medium"
+        <div className="pl-4 space-y-4">
+          {/* Header */}
+          <div className="flex justify-between items-center">
+            <span
+              className={`text-sm px-3 py-1 rounded border font-medium ${subjectBadgeColor}`}
             >
-              Practice
-            </button>
-          )}
+              {block.subject}
+            </span>
+            {block.completed && (
+              <span className="text-green-400 text-lg font-bold">✓</span>
+            )}
+          </div>
+
+          {/* Topic */}
+          <h4 className="text-white text-base font-semibold leading-snug line-clamp-2">
+            {block.topic}
+          </h4>
+
+          {/* Footer */}
+          <div className="flex items-center justify-between pt-3 border-t border-slate-700 text-sm text-slate-400">
+            <span>{formatDuration(block.duration)}</span>
+
+            {!block.completed && (
+              <button
+                onClick={(e) => {
+                  e.stopPropagation();
+                  handleProveClick();
+                }}
+                className="px-4 py-1.5 rounded bg-blue-600 hover:bg-blue-500 text-white text-sm font-medium"
+              >
+                Practice
+              </button>
+            )}
+          </div>
         </div>
       </div>
 
