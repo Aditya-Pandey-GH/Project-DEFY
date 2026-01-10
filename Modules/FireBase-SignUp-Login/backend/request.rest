@@ -1,0 +1,41 @@
+### GET
+GET http://127.0.0.1:8000/api/users
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbElEIjoiYWNrcEBlbWFpbC5jb20iLCJpYXQiOjE3NTczMDM1NTEsImV4cCI6MTc1NzMwMzYxMX0.Onxy2Yyd5C0yTJy_xTnRC2D0BTacTSTzsc096d7UYgc
+
+### Signup
+POST http://127.0.0.1:8000/api/users/signup
+Content-Type: application/json
+
+{
+	"firstName": "AC",
+	"lastName": "KP",
+	"emailID": "ackp@email.com",
+	"countryCode": "+91",
+	"phoneNumber": "9876543210",
+	"password": "Qwerty@?!123456"
+}
+
+### Login
+POST http://127.0.0.1:8000/api/users/login
+Content-Type: application/json
+
+{
+	"emailID": "ackp@email.com",
+	"password": "Qwerty@?!123456"
+}
+
+### GENERATE ACCESS TOKEN
+POST http://127.0.0.1:8000/api/users/genAccessToken
+Content-Type: application/json
+
+{
+	"token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbElEIjoiYWNrcEBlbWFpbC5jb20iLCJpYXQiOjE3NTczMDcyNzN9.HTcZnTsB_v_Fp2fWBaz2BkRYcCza0KfJRuZOtLvtl5w"
+}
+
+### Logout
+DELETE http://127.0.0.1:8000/api/users/logout
+Content-Type: application/json
+
+{
+	"token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbElEIjoiYWNrcDJAZW1haWwuY29tIiwiaWF0IjoxNzU2NDE0NjY1fQ.fWtpRb55tPFhE6iDZ_pi4kNHuAH_-bkOOxT9Uwcm-qU"
+}
