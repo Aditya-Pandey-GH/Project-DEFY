@@ -2,8 +2,9 @@ import { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { signInWithEmailAndPassword, GoogleAuthProvider, signInWithPopup } from "firebase/auth";
 import { doc, setDoc, getDoc, serverTimestamp } from "firebase/firestore";
-import { auth } from "../helpers/Firebase";
+import { auth, db } from "../helpers/Firebase";
 import { useAuth } from "../contexts/AuthContext";
+
 import "./Login.css";
 
 export default function Login() {
