@@ -37,6 +37,10 @@ const SignUp = () => {
 		}
 	};
 
+	const handleGoogleAuth = () => {
+		// Handle Google authentication logic here
+	};
+
 	return (
 		<>
 			<h1>Sign Up</h1>
@@ -57,7 +61,9 @@ const SignUp = () => {
 				<button type="submit">Sign Up</button>
 				<br />
 
-				<button type="button">Google</button>
+				<button type="button" onClick={handleGoogleAuth}>
+					Google
+				</button>
 				<br />
 			</form>
 			<Link to="/login">Already have an account? Log in here</Link>
