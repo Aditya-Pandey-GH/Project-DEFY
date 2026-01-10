@@ -1,9 +1,20 @@
-import { Link } from "react-router-dom";
+import { useEffect } from "react";
+import { Link, useNavigate } from "react-router-dom";
 import Footer from "../ui/Footer";
 import LandingHighlight from "../ui/LandingHighlight";
 import Navbar from "../ui/Navbar";
+import { useAuth } from "../contexts/AuthContext";
 
 const LandingPage = () => {
+	const { user } = useAuth();
+	const navigate = useNavigate();
+
+	useEffect(() => {
+		if (user) {
+			navigate("/dashboard", { replace: true });
+		}
+	}, [user]);
+
 	return (
 		<div className="flex flex-col">
 			<div className="flex-1 relative">
@@ -14,7 +25,7 @@ const LandingPage = () => {
 				</div>
 				<div className="hidden md:flex flex-col justify-center items-center w-full min-h-[calc(100dvh-6rem)] px-8">
 					<div className="w-full flex flex-col gap-4">
-						<div className="flex flex-col w-full text-6xl lg:text-7xl xl:text-8xl 2xl:text-9xl font-medium space-y-6 text-center xl:text-justify leading-none xl:leading-tight mb-8">
+						<div className="flex flex-col w-full text-6xl lg:text-7xl xl:text-8xl font-medium space-y-6 text-center xl:text-justify leading-none xl:leading-tight mb-8">
 							<h1>
 								How <LandingHighlight>students</LandingHighlight> track,
 							</h1>
@@ -23,7 +34,7 @@ const LandingPage = () => {
 							</h1>
 							<h1>with AI</h1>
 						</div>
-						<div className="flex flex-col justify-center w-full h-1/3 text-sm lg:text-base xl:text-lg 2xl:text-2xl space-y-2 text-center xl:text-justify">
+						<div className="flex flex-col justify-center w-full h-1/3 text-sm lg:text-base xl:text-lg 2xl:text-xl space-y-2 text-center xl:text-justify">
 							<span>It uniquely combines AI tools, IDE functionalities, and Analytics to enhance the learning experience.</span>
 							<span>
 								It also provides a free access model, democratizes learning for all students

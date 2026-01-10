@@ -1,7 +1,22 @@
+import { Link, useNavigate } from "react-router-dom";
+import { signOut } from "firebase/auth";
 import { NavItems } from "../helpers/NavItems";
-import { Link } from "react-router-dom";
+import { auth } from "../helpers/Firebase";
+import { useAuth } from "../contexts/AuthContext";
 
 const Navbar = () => {
+	const { user } = useAuth();
+	const navigate = useNavigate();
+
+	const handleLogout = async () => {
+		try {
+			await signOut(auth);
+			navigate("/login");
+		} catch (error) {
+			console.error("Error signing out:", error);
+		}
+	};
+
 	return (
 		<nav>
 			{/* PC Navbar */}
@@ -25,11 +40,21 @@ const Navbar = () => {
 					</ul>
 				</div>
 				<div>
-					<Link to="/">
-						<button className="px-6 py-3 bg-cyan-950 border border-cyan-800 rounded-lg cursor-pointer text-sm lg:text-base xl:text-lg 2xl:text-xl z-10">
-							Sign In
+					{user ? (
+						<button
+							onClick={handleLogout}
+							className="px-6 py-3 bg-cyan-950 border border-cyan-800 rounded-lg cursor-pointer text-sm lg:text-base xl:text-lg 2xl:text-xl z-10"
+						>
+							Logout
 						</button>
-					</Link>
+					) : (
+						<Link
+							to="/login"
+							className="px-6 py-3 bg-cyan-950 border border-cyan-800 rounded-lg cursor-pointer text-sm lg:text-base xl:text-lg 2xl:text-xl z-10"
+						>
+							Login
+						</Link>
+					)}
 					{/* <Link to="/signin" className="">
 						<button className="w-21 h-10 bg-cyan-950 border border-cyan-800 rounded flex justify-center items-center cursor-pointer text-sm lg:text-base xl:text-lg 2xl:text-xl">
 							Sign in
