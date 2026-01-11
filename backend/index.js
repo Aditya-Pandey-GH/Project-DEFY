@@ -3,8 +3,8 @@ import cors from "cors";
 import dotenv from "dotenv";
 import mongoose from "mongoose";
 import planRoutes from "./routes/planRoutes.js";
-import { fileURLToPath } from "url";
-import { dirname, join } from "path";
+// import { fileURLToPath } from "url";
+// import { dirname, join } from "path";
 import { GoogleGenerativeAI } from "@google/generative-ai";
 
 // =========================
