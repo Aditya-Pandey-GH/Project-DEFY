@@ -108,10 +108,10 @@ const LCGraph = ({ userName }) => {
 								<div
 									title={`${i + 1} ${monthsOfYear[curMonth]} ${curYear} - ${commits} contributions`}
 									className={`w-8 h-8 rounded overflow-hidden cursor-pointer flex justify-center items-center ${(() => {
-										if (commits >= 8) return "bg-teal-300";
-										if (commits >= 5) return "bg-teal-500";
-										if (commits >= 2) return "bg-teal-700";
-										if (commits >= 1) return "bg-teal-900";
+										if (commits >= 8) return "bg-cyan-300";
+										if (commits >= 5) return "bg-cyan-500";
+										if (commits >= 2) return "bg-cyan-700";
+										if (commits >= 1) return "bg-cyan-900";
 										return "bg-slate-700";
 									})()}`}
 								></div>

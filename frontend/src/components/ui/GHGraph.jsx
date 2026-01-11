@@ -104,10 +104,10 @@ const GHGraph = ({ userName }) => {
 									title={`${i + 1} ${monthsOfYear[curMonth]} ${curYear} - ${ghCtrLvl?.count || 0} contributions`}
 									className={`w-8 h-8 rounded overflow-hidden cursor-pointer flex justify-center items-center ${(() => {
 										const level = ghCtrLvl?.level;
-										if (level === 4) return "bg-cyan-300";
-										if (level === 3) return "bg-cyan-500";
-										if (level === 2) return "bg-cyan-700";
-										if (level === 1) return "bg-cyan-900";
+										if (level === 4) return "bg-green-300";
+										if (level === 3) return "bg-green-500";
+										if (level === 2) return "bg-green-700";
+										if (level === 1) return "bg-green-900";
 										return "bg-slate-700";
 									})()}`}
 								></div>
